@@ -1,8 +1,8 @@
-# 🚀 HackMate - Hackathon Team & Idea Finder
+# 🚀 Collab-X - Hackathon Team & Idea Finder
 
 > Stop searching. Start building.
 
-**HackMate** is a platform that eliminates the chaos of finding hackathon teammates. No more endless WhatsApp groups, no more missed connections—just simple, skill-based team matching.
+**Collab-X** is a platform that eliminates the chaos of finding hackathon teammates. No more endless WhatsApp groups, no more missed connections—just simple, skill-based team matching.
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### The Problem We Solve
 
-**Before HackMate:**
+**Before Collab-X:**
 - 😵 Students waste **hours** searching for teammates in random WhatsApp/Telegram groups
 - 🤷 Great ideas die because teams never form in time
 - ⚡ Skill matching happens by **luck**, not logic
@@ -54,7 +54,7 @@ One-click team joining:
 **Frontend:**
 - Pure HTML5, CSS3, JavaScript (No frameworks!)
 - Responsive design with modern CSS Grid/Flexbox
-- Dark theme with neon purple/blue gradients
+- Dark theme with neon blue/pink gradients
 
 **Data Storage:**
 - LocalStorage API for persistent data
@@ -139,27 +139,11 @@ hackmate/
 - [ ] Portfolio linking (GitHub, LinkedIn)
 - [ ] Email notifications for interest
 
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-
-## 👥 Team
 
 **Built with 🔥 by hackathon enthusiasts for hackathon enthusiasts**
 
 - Developer: [Deepanshu Sharma]
-- GitHub: [](https://github.com/yourusername)
+- GitHub: [deepanshusac-maker](https://github.com/deepanshusac-maker)
 - Email: deepanshusaraswat36@gmail.com
 
 ---
@@ -171,12 +155,12 @@ We welcome contributions! Here's how:
 Have questions or suggestions?
 
 - 📧 Email:  deepanshusaraswat36@gmail.com
-- 🔗 LinkedIn: 
-- 📷 Instagram: [@hackmate](https://instagram.com/hackmate)
-- 💻 GitHub: 
+- 🔗 LinkedIn: https://www.linkedin.com/in/deepanshu-sharma-2ba223384?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app
+- 📷 Instagram: [@Collab-X]()
+
 
 ---
 
 **⭐ If you found this helpful, consider giving it a star!**
 
-Made with ❤️ for hackathons | © 2026 HackMate
+Made with ❤️ for hackathons | © 2026 Collab-x
