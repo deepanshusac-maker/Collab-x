@@ -16,7 +16,7 @@
 - ⚡ Skill matching happens by **luck**, not logic
 - 📱 Scattered conversations across multiple platforms
 
-**After HackMate:**
+**After Collab-X:**
 - ✅ Post your idea with required skills in **under 2 minutes**
 - ✅ Find teammates by filtering specific skills (Frontend, Backend, AI, Hardware)
 - ✅ Connect instantly with contact info—no waiting around
@@ -84,7 +84,7 @@ hackmate/
 │   ├── postIdea.js     # Form submission logic
 │   └── explore.js      # Filtering & display logic
 │
-└── README.md           # You are here!
+└── README.md           
 ```
 
 ---
@@ -156,7 +156,7 @@ Have questions or suggestions?
 
 - 📧 Email:  deepanshusaraswat36@gmail.com
 - 🔗 LinkedIn: https://www.linkedin.com/in/deepanshu-sharma-2ba223384?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app
-- 📷 Instagram: [@Collab-X]()
+- 📷 Instagram: [@Collab-X](https://www.instagram.com/deepanshusharma4731?igsh=MTZiZjFnc25kemk5cg==)
 
 
 ---
