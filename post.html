@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Your Idea - Collab-X</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">Collab-X</span>
+                </a>
+            </div>
+            <nav class="navigation">
+                <a href="explore.html" class="nav-link">Explore Ideas</a>
+            </nav>
+        </header>
+
+        <main class="form-main">
+            <div class="form-container">
+                <h1 class="form-page-title">Post Your Hackathon Idea</h1>
+                <p class="form-page-subtitle">Share your vision and find the perfect teammates</p>
+
+                <form id="post-idea-form" class="idea-form">
+                    <div class="form-group">
+                        <label for="idea-title" class="form-label">Idea Title</label>
+                        <input 
+                            type="text" 
+                            id="idea-title" 
+                            class="form-input" 
+                            placeholder="e.g., AI-Powered Study Buddy"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idea-description" class="form-label">Description</label>
+                        <textarea 
+                            id="idea-description" 
+                            class="form-textarea" 
+                            placeholder="Describe your idea and what you want to build..."
+                            rows="5"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Required Skills</label>
+                        <div class="skill-checkboxes">
+                            <label class="skill-checkbox-label">
+                                <input type="checkbox" value="Frontend" class="skill-checkbox">
+                                <span class="skill-badge skill-frontend">Frontend</span>
+                            </label>
+                            <label class="skill-checkbox-label">
+                                <input type="checkbox" value="Backend" class="skill-checkbox">
+                                <span class="skill-badge skill-backend">Backend</span>
+                            </label>
+                            <label class="skill-checkbox-label">
+                                <input type="checkbox" value="AI" class="skill-checkbox">
+                                <span class="skill-badge skill-ai">AI</span>
+                            </label>
+                            <label class="skill-checkbox-label">
+                                <input type="checkbox" value="Hardware" class="skill-checkbox">
+                                <span class="skill-badge skill-hardware">Hardware</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-size" class="form-label">Team Size</label>
+                        <select id="team-size" class="form-select" required>
+                            <option value="">Select team size</option>
+                            <option value="2">2 members</option>
+                            <option value="3">3 members</option>
+                            <option value="4">4 members</option>
+                            <option value="5">5 members</option>
+                            <option value="6">6+ members</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-info" class="form-label">Contact Info</label>
+                        <input 
+                            type="text" 
+                            id="contact-info" 
+                            class="form-input" 
+                            placeholder="Email or username"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <span class="button-icon">🚀</span>
+                        Post Idea
+                    </button>
+                </form>
+
+                <div id="success-message" class="success-message hidden">
+                    <span class="success-icon">✅</span>
+                    <p>Idea posted successfully! <a href="explore.html">View all ideas</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="postIdea.js"></script>
+</body>
+</html>

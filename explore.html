@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Ideas - Collab-X</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">Collab-X</span>
+                </a>
+            </div>
+            <nav class="navigation">
+                <a href="post.html" class="nav-link">Post Idea</a>
+            </nav>
+        </header>
+
+        <main class="explore-main">
+            <div class="explore-header">
+                <h1 class="explore-title">Explore Hackathon Ideas</h1>
+                <p class="explore-subtitle">Find projects that match your skills</p>
+            </div>
+
+            <div class="filter-section">
+                <label for="skill-filter" class="filter-label">Filter by Skill:</label>
+                <select id="skill-filter" class="filter-select">
+                    <option value="all">All Skills</option>
+                    <option value="Frontend">Frontend</option>
+                    <option value="Backend">Backend</option>
+                    <option value="AI">AI</option>
+                    <option value="Hardware">Hardware</option>
+                </select>
+            </div>
+
+            <div id="ideas-container" class="ideas-grid">
+               
+            </div>
+
+            <div id="no-ideas-message" class="no-ideas-message hidden">
+                <p>No ideas found. <a href="post.html">Be the first to post!</a></p>
+            </div>
+        </main>
+    </div>
+
+    <div id="contact-modal" class="modal hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">✕</button>
+            <h2 class="modal-title">Contact Information</h2>
+            <p id="modal-contact-info" class="modal-contact-info"></p>
+            <p class="modal-instruction">Reach out to join this team!</p>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="explore.js"></script>
+</body>
+</html>
