@@ -1,4 +1,5 @@
-// Wait for DOM to load
+// explore.js - Updated for Firebase
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // Get DOM elements
@@ -36,10 +37,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // --- ASYNC UPDATE STARTS HERE ---
+    
     // Function to display ideas
-    function displayIdeas(filterSkill) {
-        // Get filtered ideas
-        const ideas = HackMateData.filterBySkill(filterSkill);
+    async function displayIdeas(filterSkill) {
+        // Optional: Add a loading state here
+        ideasContainer.innerHTML = '<p style="text-align:center; color:#b0b0b0; grid-column: 1/-1;">Loading ideas from cloud...</p>';
+
+        // WE USE AWAIT HERE BECAUSE FIREBASE IS ASYNC
+        const ideas = await HackMateData.filterBySkill(filterSkill);
         
         // Clear container
         ideasContainer.innerHTML = '';
@@ -72,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return '<span class="skill-badge ' + skillClass + '">' + skill + '</span>';
         }).join('');
         
-        // Build card HTML
+        // Build card HTML using safe text insertion is better, but this template literal is fine for MVP
         card.innerHTML = `
             <div class="idea-card-header">
                 <h3 class="idea-title">${idea.title}</h3>
@@ -96,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </button>
         `;
         
-       
         const joinButton = card.querySelector('.join-button');
         joinButton.addEventListener('click', function() {
             handleJoinTeam(idea.id);
@@ -105,18 +110,21 @@ document.addEventListener('DOMContentLoaded', function() {
         return card;
     }
     
-    
-    function handleJoinTeam(ideaId) {
-        const idea = HackMateData.getIdeaById(ideaId);
+    // Async Handler for Joining
+    async function handleJoinTeam(ideaId) {
+        // 1. Get idea details (Await)
+        const idea = await HackMateData.getIdeaById(ideaId);
         
         if (idea) {
+            // 2. Increment in Database (Await)
+            await HackMateData.incrementInterested(ideaId);
             
-            const newCount = HackMateData.incrementInterested(ideaId);
-            
-            
+            // 3. Update UI immediately (Optimistic UI)
             const countElement = document.getElementById('interest-count-' + ideaId);
             if (countElement) {
-                countElement.textContent = newCount;
+                // If the element exists, parse current, add 1
+                let current = parseInt(countElement.textContent) || 0;
+                countElement.textContent = current + 1;
                 countElement.style.color = '#f093fb';
                 setTimeout(function() {
                     countElement.style.color = '';
@@ -127,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    
     function showContactModal(contact) {
         if (modalContactInfo && contactModal) {
             modalContactInfo.textContent = contact;
@@ -135,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = 'hidden';
         }
     }
-    
     
     function closeModal() {
         if (contactModal) {
