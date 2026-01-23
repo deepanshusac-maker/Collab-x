@@ -12,7 +12,7 @@ import {
 // --- CONFIGURATION ---
 // 🔴 Set this to 'true' when you are ready to restrict to NIT Patna emails only.
 // 🟢 Set this to 'false' for testing with personal Gmails.
-const ENFORCE_NITP_EMAIL = false; 
+const ENFORCE_NITP_EMAIL = true; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyCp874kPRZJ7Kp5_zvaSU5QbvLLIUxaG9c",
