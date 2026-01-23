@@ -5,129 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Ideas - Collab-X</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Additional styles for join request modal */
-        .join-request-modal .modal-content {
-            max-width: 500px;
-        }
-        
-        .modal-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .modal-form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .modal-form-label {
-            font-weight: 600;
-            color: #e0e0e0;
-            font-size: 0.95rem;
-        }
-        
-        .modal-textarea {
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 8px;
-            color: #e0e0e0;
-            font-size: 1rem;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 100px;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .modal-submit-btn {
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
-        }
-        
-        .modal-submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* Enhanced action buttons */
-        .idea-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .contact-button {
-            padding: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            color: #667eea;
-            border: 1px solid #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-button:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .owner-btn {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-        }
-        
-        .member-btn {
-            background: linear-gradient(90deg, #22c55e, #16a34a);
-            cursor: default;
-        }
-        
-        .pending-btn {
-            background: linear-gradient(90deg, #3b82f6, #2563eb);
-            cursor: default;
-        }
-        
-        .rejected-btn {
-            background: linear-gradient(90deg, #ef4444, #dc2626);
-            cursor: default;
-        }
-        
-        .full-btn {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-            cursor: not-allowed;
-        }
-        
-        .modal-idea-title {
-            color: #667eea;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
     <div id="login-overlay" class="login-overlay">
@@ -155,7 +34,6 @@
                 </div>
                 <nav class="navigation">
                     <a href="post.html" class="nav-link">Post Idea</a>
-                    <a href="my-ideas.html" class="nav-link">My Ideas</a>
                     <div id="nav-user-profile" class="user-profile">
                         <span id="nav-email" class="user-email"></span>
                         <button id="nav-logout" class="logout-btn">Logout</button>
@@ -181,7 +59,7 @@
                 </div>
 
                 <div id="ideas-container" class="ideas-grid">
-                </div>
+                   </div>
 
                 <div id="no-ideas-message" class="no-ideas-message hidden">
                     <p>No ideas found. <a href="post.html">Be the first to post!</a></p>
@@ -190,7 +68,6 @@
         </div>
     </div>
 
-    <!-- Contact Modal -->
     <div id="contact-modal" class="modal hidden">
         <div class="modal-content">
             <button class="modal-close" id="close-modal">✕</button>
@@ -200,39 +77,9 @@
         </div>
     </div>
 
-    <!-- Join Request Modal -->
-    <div id="join-request-modal" class="modal join-request-modal hidden">
-        <div class="modal-content">
-            <button class="modal-close" id="close-join-modal">✕</button>
-            <h2 class="modal-title">Request to Join Team</h2>
-            <p class="modal-idea-title" id="join-idea-title"></p>
-            
-            <form id="join-request-form" class="modal-form">
-                <div class="modal-form-group">
-                    <label for="join-request-message" class="modal-form-label">
-                        Introduce yourself (Optional)
-                    </label>
-                    <textarea 
-                        id="join-request-message" 
-                        class="modal-textarea"
-                        placeholder="Tell the team owner why you'd be a great fit. Mention your skills, experience, or what you can contribute..."
-                        rows="4"
-                    ></textarea>
-                </div>
-                
-                <button type="submit" class="modal-submit-btn">
-                    🚀 Send Join Request
-                </button>
-                
-                <p style="color: #b0b0b0; font-size: 0.85rem; text-align: center;">
-                    The idea owner will review your request and approve or reject it.
-                </p>
-            </form>
-        </div>
-    </div>
-
     <script type="module" src="js/data.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/explore.js"></script>
+    
 </body>
 </html>
