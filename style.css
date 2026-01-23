@@ -919,3 +919,190 @@ body {
 .login-overlay.hidden {
     display: none !important;
 }
+/* --- MODERN LOGIN UI --- */
+
+/* 1. Full Screen Container with Deep Space Background */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #030712; /* Very dark blue/black */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 2. Ambient Background Glows */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: floatGlow 10s infinite alternate ease-in-out;
+}
+
+.glow-1 {
+    width: 300px;
+    height: 300px;
+    background: #4f46e5; /* Indigo */
+    top: -50px;
+    left: -50px;
+}
+
+.glow-2 {
+    width: 400px;
+    height: 400px;
+    background: #db2777; /* Pink */
+    bottom: -100px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+/* 3. The Glass Card */
+.login-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 2px; /* For border gradient border-box trick */
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    animation: cardSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+}
+
+.login-header {
+    padding: 40px 30px 20px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+}
+
+.login-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 15px rgba(118, 75, 162, 0.5));
+}
+
+.floating-icon {
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.login-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 12px;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 20px;
+    color: #a5b4fc;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.login-body {
+    padding: 20px 30px 40px;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+/* 4. The Main Button */
+.big-login-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: white;
+    color: #1e293b;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.big-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    background: #f8fafc;
+}
+
+.big-login-btn:active {
+    transform: translateY(0);
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+}
+
+/* 5. Error & Footer */
+.login-error {
+    min-height: 20px;
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.login-footer {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.login-footer p {
+    color: #64748b;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+/* 6. Animations */
+@keyframes floatGlow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(20px, 20px); }
+}
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes cardSlideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Utility to hide/show */
+.login-overlay.hidden {
+    display: none !important;
+}

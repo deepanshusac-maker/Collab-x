@@ -5,21 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collab-X - Find Your Hackathon Team</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
     <div id="login-overlay" class="login-overlay">
-        <div class="login-card">
-            <span class="login-icon">🚀</span>
-            <h1 class="login-title">Welcome to Collab-X</h1>
-            <p class="login-subtitle">Join the exclusive Platform for collaboration.</p>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
+    <div class="login-card">
+        <div class="login-header">
+            <span class="login-icon floating-icon">🚀</span>
+            <h1 class="login-title">Collab-X</h1>
+            <p class="login-badge">NIT Patna Exclusive</p>
+        </div>
+        
+        <div class="login-body">
+            <p class="login-subtitle">Stop searching. Start building.<br>Find your dream hackathon team today.</p>
             
             <button id="big-login-btn" class="big-login-btn">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google">
-                Sign in with NITP Email
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" class="google-logo">
+                <span>Continue with NITP Email</span>
             </button>
-            <p id="login-error" style="color:#ff6b6b; margin-top:15px; font-size:0.9rem;"></p>
+            
+            <p id="login-error" class="login-error"></p>
+        </div>
+
+        <div class="login-footer">
+            <p>Secure access for NITP Students only</p>
         </div>
     </div>
+</div>
 
     <div id="app-content" class="app-content hidden">
         <div class="landing-container">
@@ -117,5 +133,6 @@
 
     <script type="module" src="js/data.js"></script>
     <script type="module" src="js/auth.js"></script>
+    
 </body>
 </html>
