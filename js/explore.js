@@ -1,8 +1,8 @@
-// explore.js - Updated for Firebase
+
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Get DOM elements
+    // 1. Get DOM elements
     const ideasContainer = document.getElementById('ideas-container');
     const skillFilter = document.getElementById('skill-filter');
     const noIdeasMessage = document.getElementById('no-ideas-message');
@@ -15,16 +15,18 @@ document.addEventListener('DOMContentLoaded', function() {
         contactModal.classList.add('hidden');
     }
     
-    // Load and display all ideas initially
+    // 2. Load and display all ideas initially
     displayIdeas('all');
     
-    // Filter change handler
-    skillFilter.addEventListener('change', function() {
-        const selectedSkill = this.value;
-        displayIdeas(selectedSkill);
-    });
+    // 3. Filter change handler
+    if (skillFilter) {
+        skillFilter.addEventListener('change', function() {
+            const selectedSkill = this.value;
+            displayIdeas(selectedSkill);
+        });
+    }
     
-    // Close modal handlers
+    // 4. Close modal handlers
     if (closeModalButton) {
         closeModalButton.addEventListener('click', closeModal);
     }
@@ -37,17 +39,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // --- ASYNC UPDATE STARTS HERE ---
+    // --- CORE FUNCTIONS ---
     
-    // Function to display ideas
+    // Function to display ideas (Async)
     async function displayIdeas(filterSkill) {
-        // Optional: Add a loading state here
-        ideasContainer.innerHTML = '<p style="text-align:center; color:#b0b0b0; grid-column: 1/-1;">Loading ideas from cloud...</p>';
+        // Clear container and show loading state
+        ideasContainer.innerHTML = ''; 
+        const loadingMsg = document.createElement('p');
+        loadingMsg.style.textAlign = 'center';
+        loadingMsg.style.color = '#b0b0b0';
+        loadingMsg.style.gridColumn = '1/-1';
+        loadingMsg.textContent = 'Loading ideas from cloud...';
+        ideasContainer.appendChild(loadingMsg);
 
-        // WE USE AWAIT HERE BECAUSE FIREBASE IS ASYNC
+        // Fetch data from Firebase (via data.js global object)
         const ideas = await HackMateData.filterBySkill(filterSkill);
         
-        // Clear container
+        // Clear loading message
         ideasContainer.innerHTML = '';
         
         // Check if there are ideas
@@ -60,52 +68,101 @@ document.addEventListener('DOMContentLoaded', function() {
             ideasContainer.classList.remove('hidden');
         }
         
-        // Create idea cards
+        // Create and append idea cards
         ideas.forEach(function(idea) {
             const ideaCard = createIdeaCard(idea);
             ideasContainer.appendChild(ideaCard);
         });
     }
     
-    // Function to create an idea card
+    // SECURE Function to create an idea card (Replaced innerHTML with DOM methods)
     function createIdeaCard(idea) {
+        // 1. Create the main card container
         const card = document.createElement('div');
         card.className = 'idea-card';
         
-        // Create skills badges HTML
-        const skillsBadgesHTML = idea.skills.map(function(skill) {
-            const skillClass = 'skill-' + skill.toLowerCase();
-            return '<span class="skill-badge ' + skillClass + '">' + skill + '</span>';
-        }).join('');
+        // 2. Create Header & Title
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'idea-card-header';
         
-        // Build card HTML using safe text insertion is better, but this template literal is fine for MVP
-        card.innerHTML = `
-            <div class="idea-card-header">
-                <h3 class="idea-title">${idea.title}</h3>
-            </div>
-            <p class="idea-description">${idea.description}</p>
-            <div class="idea-skills">
-                ${skillsBadgesHTML}
-            </div>
-            <div class="idea-info">
-                <span class="team-size-info">
-                    <span>👥</span>
-                    <span>Team: ${idea.teamSize}</span>
-                </span>
-                <span class="interest-count">
-                    <span>🔥</span>
-                    <span id="interest-count-${idea.id}">${idea.interested}</span>
-                </span>
-            </div>
-            <button class="join-button" data-idea-id="${idea.id}">
-                Join Team
-            </button>
-        `;
+        const title = document.createElement('h3');
+        title.className = 'idea-title';
+        title.textContent = idea.title; // SECURITY: Sanitizes input
         
-        const joinButton = card.querySelector('.join-button');
+        headerDiv.appendChild(title);
+        card.appendChild(headerDiv);
+        
+        // 3. Create Description
+        const description = document.createElement('p');
+        description.className = 'idea-description';
+        description.textContent = idea.description; // SECURITY: Sanitizes input
+        card.appendChild(description);
+        
+        // 4. Create Skills Container
+        const skillsContainer = document.createElement('div');
+        skillsContainer.className = 'idea-skills';
+        
+        // Safely create badges for each skill
+        if (idea.skills && Array.isArray(idea.skills)) {
+            idea.skills.forEach(skill => {
+                const badge = document.createElement('span');
+                // Add base class and dynamic color class
+                badge.classList.add('skill-badge');
+                badge.classList.add('skill-' + skill.toLowerCase());
+                badge.textContent = skill;
+                skillsContainer.appendChild(badge);
+            });
+        }
+        card.appendChild(skillsContainer);
+        
+        // 5. Create Info Row (Team Size & Interest)
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'idea-info';
+        
+        // -- Team Size Section
+        const teamSpan = document.createElement('span');
+        teamSpan.className = 'team-size-info';
+        
+        const teamIcon = document.createElement('span');
+        teamIcon.textContent = '👥 '; 
+        
+        const teamText = document.createElement('span');
+        teamText.textContent = `Team: ${idea.teamSize}`;
+        
+        teamSpan.appendChild(teamIcon);
+        teamSpan.appendChild(teamText);
+        
+        // -- Interest Count Section
+        const interestSpan = document.createElement('span');
+        interestSpan.className = 'interest-count';
+        
+        const fireIcon = document.createElement('span');
+        fireIcon.textContent = '🔥 ';
+        
+        const countNumber = document.createElement('span');
+        countNumber.id = `interest-count-${idea.id}`;
+        countNumber.textContent = idea.interested;
+        
+        interestSpan.appendChild(fireIcon);
+        interestSpan.appendChild(countNumber);
+        
+        // Append both sections to infoDiv
+        infoDiv.appendChild(teamSpan);
+        infoDiv.appendChild(interestSpan);
+        card.appendChild(infoDiv);
+        
+        // 6. Create Join Button
+        const joinButton = document.createElement('button');
+        joinButton.className = 'join-button';
+        joinButton.dataset.ideaId = idea.id;
+        joinButton.textContent = 'Join Team';
+        
+        // Attach Event Listener directly
         joinButton.addEventListener('click', function() {
             handleJoinTeam(idea.id);
         });
+        
+        card.appendChild(joinButton);
         
         return card;
     }
@@ -137,7 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showContactModal(contact) {
         if (modalContactInfo && contactModal) {
-            modalContactInfo.textContent = contact;
+            // SECURITY: textContent is safe for emails/phones
+            modalContactInfo.textContent = contact; 
             contactModal.classList.remove('hidden');           
             document.body.style.overflow = 'hidden';
         }
@@ -156,3 +214,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+

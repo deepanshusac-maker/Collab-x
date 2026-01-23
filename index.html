@@ -7,92 +7,115 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="landing-container">
-        <header class="landing-header">
-            <div class="logo">
-                <span class="logo-icon">🚀</span>
-                <span class="logo-text">Collab-X</span>
-            </div>
-        </header>
-
-        <main class="landing-main">
-            <div class="hero-section">
-                <h1 class="hero-title">Stop Searching. Start Building.</h1>
-                <p class="hero-subtitle">
-                    Find hackathon teammates by skills, not chaos.<br>
-                    No more endless WhatsApp groups.
-                </p>
-
-                <div class="problem-statement">
-                    <h2 class="problem-title">The Problem We Solve</h2>
-                    <div class="problem-points">
-                        <div class="problem-point">
-                            <span class="problem-icon">😵</span>
-                            <p>Finding teammates takes hours on random groups</p>
-                        </div>
-                        <div class="problem-point">
-                            <span class="problem-icon">🤷</span>
-                            <p>Great ideas die because teams never form</p>
-                        </div>
-                        <div class="problem-point">
-                            <span class="problem-icon">⚡</span>
-                            <p>Skill matching happens by luck, not logic</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-buttons">
-                    <a href="post.html" class="primary-button">
-                        <span class="button-icon">💡</span>
-                        Post an Idea
-                    </a>
-                    <a href="explore.html" class="secondary-button">
-                        <span class="button-icon">🔍</span>
-                        Explore Ideas
-                    </a>
-                </div>
-            </div>
-
-            <div class="features-section">
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h3 class="feature-title">Post Ideas</h3>
-                    <p class="feature-description">Share your hackathon vision with required skills</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title">Match Skills</h3>
-                    <p class="feature-description">Find exactly who you need for your team</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3 class="feature-title">Join Teams</h3>
-                    <p class="feature-description">Connect instantly, no waiting around</p>
-                </div>
-            </div>
-        </main>
-
-        <footer class="landing-footer">
-            <div class="footer-content">
-                <div class="footer-branding">
-                    <div class="footer-logo">
-                        <span class="logo-icon">🚀</span>
-                        <span class="logo-text">Collab-X</span>
-                    </div>
-                    <p class="footer-tagline">Connecting hackers, one idea at a time</p>
-                </div>
-                <div class="footer-links">
-                    <h3 class="footer-heading">Connect With Us</h3>
-                    <p><a href="deepanshusaraswat36@gmail.com" class="footer-link">📧 Email</a></p>
-                    <p><a href="https://www.linkedin.com/in/deepanshu-sharma-2ba223384?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="footer-link">🔗 LinkedIn</a></p>
-                    <p><a href="https://www.instagram.com/deepanshusharma4731?igsh=MTZiZjFnc25kemk5cg==" target="_blank" class="footer-link">📷 Instagram</a></p>
-                    <p><a href="https://github.com/repos#:~:text=deepanshusac%2Dmaker/Collab%2Dx" target="_blank" class="footer-link">💻 GitHub</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>Built for hackathon selection • Made with 🔥 for problem solvers</p>
-            </div>
-        </footer>
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <span class="login-icon">🚀</span>
+            <h1 class="login-title">Welcome to Collab-X</h1>
+            <p class="login-subtitle">Join the exclusive NIT Patna hackathon community.</p>
+            
+            <button id="big-login-btn" class="big-login-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google">
+                Sign in with NITP Email
+            </button>
+            <p id="login-error" style="color:#ff6b6b; margin-top:15px; font-size:0.9rem;"></p>
+        </div>
     </div>
+
+    <div id="app-content" class="app-content hidden">
+        <div class="landing-container">
+            <header class="landing-header">
+                <div class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">Collab-X</span>
+                </div>
+                 <nav class="navigation" style="justify-content: center; margin-top: 20px;">
+                    <div id="nav-user-profile" class="user-profile">
+                        <span id="nav-email" class="user-email"></span>
+                        <button id="nav-logout" class="logout-btn">Logout</button>
+                    </div>
+                </nav>
+            </header>
+
+            <main class="landing-main">
+                <div class="hero-section">
+                    <h1 class="hero-title">Stop Searching. Start Building.</h1>
+                    <p class="hero-subtitle">
+                        Find hackathon teammates by skills, not chaos.<br>
+                        No more endless WhatsApp groups.
+                    </p>
+
+                    <div class="problem-statement">
+                        <h2 class="problem-title">The Problem We Solve</h2>
+                        <div class="problem-points">
+                            <div class="problem-point">
+                                <span class="problem-icon">😵</span>
+                                <p>Finding teammates takes hours on random groups</p>
+                            </div>
+                            <div class="problem-point">
+                                <span class="problem-icon">🤷</span>
+                                <p>Great ideas die because teams never form</p>
+                            </div>
+                            <div class="problem-point">
+                                <span class="problem-icon">⚡</span>
+                                <p>Skill matching happens by luck, not logic</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="post.html" class="primary-button">
+                            <span class="button-icon">💡</span>
+                            Post an Idea
+                        </a>
+                        <a href="explore.html" class="secondary-button">
+                            <span class="button-icon">🔍</span>
+                            Explore Ideas
+                        </a>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <h3 class="feature-title">Post Ideas</h3>
+                        <p class="feature-description">Share your hackathon vision with required skills</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Match Skills</h3>
+                        <p class="feature-description">Find exactly who you need for your team</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3 class="feature-title">Join Teams</h3>
+                        <p class="feature-description">Connect instantly, no waiting around</p>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="landing-footer">
+                <div class="footer-content">
+                    <div class="footer-branding">
+                        <div class="footer-logo">
+                            <span class="logo-icon">🚀</span>
+                            <span class="logo-text">Collab-X</span>
+                        </div>
+                        <p class="footer-tagline">Connecting hackers, one idea at a time</p>
+                    </div>
+                    <div class="footer-links">
+                        <h3 class="footer-heading">Connect With Us</h3>
+                        <p><a href="mailto:deepanshusaraswat36@gmail.com" class="footer-link">📧 Email</a></p>
+                        <p><a href="https://www.linkedin.com/in/deepanshu-sharma-2ba223384" target="_blank" class="footer-link">🔗 LinkedIn</a></p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>Built for hackathon selection • Made with 🔥 for problem solvers</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script type="module" src="js/data.js"></script>
+    <script type="module" src="js/auth.js"></script>
 </body>
 </html>
