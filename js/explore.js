@@ -1,4 +1,4 @@
-
+// js/explore.js
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -6,36 +6,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const ideasContainer = document.getElementById('ideas-container');
     const skillFilter = document.getElementById('skill-filter');
     const noIdeasMessage = document.getElementById('no-ideas-message');
-    const contactModal = document.getElementById('contact-modal');
-    const modalContactInfo = document.getElementById('modal-contact-info');
-    const closeModalButton = document.getElementById('close-modal');
     
-    // Ensure modal is hidden on page load
-    if (contactModal) {
-        contactModal.classList.add('hidden');
-    }
-    
-    // 2. Load and display all ideas initially
-    displayIdeas('all');
+    // --- FIX 1: Wait for Auth before loading ideas ---
+    // This ensures we know WHO the user is before we render the buttons
+    HackMateData.onUserChange((user) => {
+        const currentFilter = skillFilter ? skillFilter.value : 'all';
+        displayIdeas(currentFilter);
+    });
     
     // 3. Filter change handler
     if (skillFilter) {
         skillFilter.addEventListener('change', function() {
             const selectedSkill = this.value;
             displayIdeas(selectedSkill);
-        });
-    }
-    
-    // 4. Close modal handlers
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
-    
-    if (contactModal) {
-        contactModal.addEventListener('click', function(event) {
-            if (event.target === contactModal) {
-                closeModal();
-            }
         });
     }
     
@@ -68,15 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
             ideasContainer.classList.remove('hidden');
         }
         
-        // Create and append idea cards
-        ideas.forEach(function(idea) {
-            const ideaCard = createIdeaCard(idea);
+        // Create and append idea cards using a loop that supports await
+        for (const idea of ideas) {
+            const ideaCard = await createIdeaCard(idea);
             ideasContainer.appendChild(ideaCard);
-        });
+        }
     }
     
-    // SECURE Function to create an idea card (Replaced innerHTML with DOM methods)
-    function createIdeaCard(idea) {
+    // ASYNC Function to create an idea card
+    async function createIdeaCard(idea) {
         // 1. Create the main card container
         const card = document.createElement('div');
         card.className = 'idea-card';
@@ -87,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const title = document.createElement('h3');
         title.className = 'idea-title';
-        title.textContent = idea.title; // SECURITY: Sanitizes input
+        title.textContent = idea.title; 
         
         headerDiv.appendChild(title);
         card.appendChild(headerDiv);
@@ -95,18 +78,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // 3. Create Description
         const description = document.createElement('p');
         description.className = 'idea-description';
-        description.textContent = idea.description; // SECURITY: Sanitizes input
+        description.textContent = idea.description; 
         card.appendChild(description);
         
         // 4. Create Skills Container
         const skillsContainer = document.createElement('div');
         skillsContainer.className = 'idea-skills';
         
-        // Safely create badges for each skill
         if (idea.skills && Array.isArray(idea.skills)) {
             idea.skills.forEach(skill => {
                 const badge = document.createElement('span');
-                // Add base class and dynamic color class
                 badge.classList.add('skill-badge');
                 badge.classList.add('skill-' + skill.toLowerCase());
                 badge.textContent = skill;
@@ -115,103 +96,104 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         card.appendChild(skillsContainer);
         
-        // 5. Create Info Row (Team Size & Interest)
+        // 5. Create Info Row
         const infoDiv = document.createElement('div');
         infoDiv.className = 'idea-info';
         
-        // -- Team Size Section
+        // -- Team Size
         const teamSpan = document.createElement('span');
         teamSpan.className = 'team-size-info';
+        teamSpan.innerHTML = `<span>👥</span> Team: ${idea.teamSize}`;
         
-        const teamIcon = document.createElement('span');
-        teamIcon.textContent = '👥 '; 
-        
-        const teamText = document.createElement('span');
-        teamText.textContent = `Team: ${idea.teamSize}`;
-        
-        teamSpan.appendChild(teamIcon);
-        teamSpan.appendChild(teamText);
-        
-        // -- Interest Count Section
+        // -- Interest Count
         const interestSpan = document.createElement('span');
         interestSpan.className = 'interest-count';
+        interestSpan.innerHTML = `<span>🔥</span> <span id="interest-count-${idea.id}">${idea.interested}</span>`;
         
-        const fireIcon = document.createElement('span');
-        fireIcon.textContent = '🔥 ';
-        
-        const countNumber = document.createElement('span');
-        countNumber.id = `interest-count-${idea.id}`;
-        countNumber.textContent = idea.interested;
-        
-        interestSpan.appendChild(fireIcon);
-        interestSpan.appendChild(countNumber);
-        
-        // Append both sections to infoDiv
         infoDiv.appendChild(teamSpan);
         infoDiv.appendChild(interestSpan);
         card.appendChild(infoDiv);
         
-        // 6. Create Join Button
+        // 6. Create REQUEST Button (The Startup Logic)
         const joinButton = document.createElement('button');
         joinButton.className = 'join-button';
         joinButton.dataset.ideaId = idea.id;
-        joinButton.textContent = 'Join Team';
         
-        // Attach Event Listener directly
+        // Check Status: Have I already requested this?
+        try {
+            const myStatus = await HackMateData.checkRequestStatus(idea.id);
+            
+            if (myStatus === 'pending') {
+                joinButton.textContent = 'Pending 🕒';
+                joinButton.style.background = '#f59e0b'; // Orange
+                joinButton.disabled = true;
+            } else if (myStatus === 'accepted') {
+                joinButton.textContent = 'Accepted! ✅';
+                joinButton.style.background = '#22c55e'; // Green
+                joinButton.disabled = true;
+            } else {
+                joinButton.textContent = 'Request to Join';
+            }
+        } catch (e) {
+            joinButton.textContent = 'Request to Join';
+        }
+
+        // Attach Event Listener
         joinButton.addEventListener('click', function() {
-            handleJoinTeam(idea.id);
+            handleRequestJoin(idea, joinButton);
         });
         
         card.appendChild(joinButton);
-        
         return card;
     }
     
-    // Async Handler for Joining
-    async function handleJoinTeam(ideaId) {
-        // 1. Get idea details (Await)
-        const idea = await HackMateData.getIdeaById(ideaId);
-        
-        if (idea) {
-            // 2. Increment in Database (Await)
-            await HackMateData.incrementInterested(ideaId);
-            
-            // 3. Update UI immediately (Optimistic UI)
-            const countElement = document.getElementById('interest-count-' + ideaId);
-            if (countElement) {
-                // If the element exists, parse current, add 1
-                let current = parseInt(countElement.textContent) || 0;
-                countElement.textContent = current + 1;
-                countElement.style.color = '#f093fb';
-                setTimeout(function() {
-                    countElement.style.color = '';
-                }, 500);
-            }
-                     
-            showContactModal(idea.contact);
-        }
-    }
-    
-    function showContactModal(contact) {
-        if (modalContactInfo && contactModal) {
-            // SECURITY: textContent is safe for emails/phones
-            modalContactInfo.textContent = contact; 
-            contactModal.classList.remove('hidden');           
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    function closeModal() {
-        if (contactModal) {
-            contactModal.classList.add('hidden');           
-            document.body.style.overflow = '';
-        }
-    }
-       
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeModal();
-        }
-    });
-});
+    // NEW: Async Handler for Sending Requests
+    async function handleRequestJoin(idea, buttonElement) {
+        // 1. UI Loading State
+        const originalText = buttonElement.textContent;
+        buttonElement.textContent = "Sending... ⏳";
+        buttonElement.disabled = true;
 
+        try {
+            // 2. Send Request via Data Layer
+            await HackMateData.sendJoinRequest(idea.id, idea.authorUid);
+            
+            // 3. Success UI
+            buttonElement.textContent = "Request Sent! ✅";
+            buttonElement.style.background = "#22c55e"; 
+            
+            // Update interest count visually
+            const countEl = document.getElementById(`interest-count-${idea.id}`);
+            if(countEl) {
+                let current = parseInt(countEl.textContent) || 0;
+                countEl.textContent = current + 1;
+                countEl.style.color = '#f093fb';
+            }
+            
+            // Background update of interest count
+            await HackMateData.incrementInterested(idea.id);
+
+        } catch (error) {
+            console.error(error);
+            
+            // 4. Handle Specific Errors
+            if (error.message.includes("already requested")) {
+                buttonElement.textContent = "Pending 🕒";
+                buttonElement.style.background = "#f59e0b";
+            } else if (error.message.includes("own project")) {
+                buttonElement.textContent = "Your Project 👤";
+                buttonElement.style.background = "#64748b"; 
+            } else if (error.message.includes("Must be logged in")) {
+                 alert("Please log in first!");
+                 const loginOverlay = document.getElementById('login-overlay');
+                 if(loginOverlay) loginOverlay.classList.remove('hidden');
+                 buttonElement.textContent = originalText;
+                 buttonElement.disabled = false;
+            } else {
+                alert("Error: " + error.message);
+                buttonElement.textContent = originalText;
+                buttonElement.disabled = false;
+            }
+        }
+    }
+});
